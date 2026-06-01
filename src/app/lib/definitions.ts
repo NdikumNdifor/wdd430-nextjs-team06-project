@@ -17,3 +17,24 @@ export interface Product {
   price: number;        // NUMERIC(10, 2) NOT NULL
   image_url: string;    // TEXT NOT NULL
 }
+
+
+export interface CustomersTableType {
+  id: string;
+  name: string;
+  email: string;
+  image_url: string;
+  total_invoices: number;
+  total_pending: string;
+  total_paid: string;
+}
+
+export interface FormattedCustomersTable {
+  id: string;
+  name: string;
+  email: string;
+  image_url: string;
+  total_invoices: number;
+  total_pending: string;
+  total_paid: string;
+}
