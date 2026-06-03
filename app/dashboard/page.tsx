@@ -1,5 +1,6 @@
 export default function Page() {
   return (
+    <h1>New pull request</h1>
     <section className="rounded-lg border border-[#87a96b]/30 bg-white/50 p-6">
       <p className="text-sm font-bold uppercase tracking-wide text-[#e2725b]">
         Seller dashboard
