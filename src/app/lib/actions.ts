@@ -123,6 +123,12 @@ export async function authenticate(prevState: any, formData: FormData) {
   }
 
   const { email, password } = validatedFields.data;
+  // We if the user exists right here in the Action!
+  const userResult = await sql`SELECT * FROM users WHERE email=${email}`;
+  if (userResult.length === 0) {
+    // We safely redirect from the Server Action context!
+    redirect('/signup');
+  }
 
   try {
     // Call Auth.js signIn method with credentials provider configuration

@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
-import type { User } from '@/src/app/lib/definitions';
+import type { User } from './lib/definitions';
 import bcrypt from 'bcryptjs';
 import postgres from 'postgres';
 
@@ -35,7 +35,8 @@ export const { auth, signIn, signOut } = NextAuth({
 
           // If no user is found, redirect user to sign up page
           if (!user) {
-          redirect('/signup'); 
+            return null; // Return null safely so Auth.js can register a standard failure message
+          // redirect('/signup'); 
         }
 
           const passwordsMatch = await bcrypt.compare(password, user.password);
