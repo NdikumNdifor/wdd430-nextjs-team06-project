@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState } from "react"
-import {signUpUser, State} from "@/app/lib/actions"
+import {signUpUser, State} from "../../app/lib/actions"
 import { Button } from './button';
 
 // import { useSearchParams } from 'next/navigation';

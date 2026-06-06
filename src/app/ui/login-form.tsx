@@ -1,4 +1,4 @@
-import { playfair } from '@/app/ui/fonts'; //  Correct named import
+import { playfair } from './fonts'; //  Correct named import
 // import { lusitana } from '@/app/ui/fonts';
 import {
   AtSymbolIcon,
