@@ -1,6 +1,6 @@
-import { categories } from '@/app/ui/home/home-data';
-import { SectionHeading } from '@/app/ui/home/section-heading';
-import styles from '@/app/ui/home/home.module.css';
+import { categories } from './home-data';
+import { SectionHeading } from './section-heading';
+import styles from './home.module.css';
 
 export function CategoryShowcase() {
   return (

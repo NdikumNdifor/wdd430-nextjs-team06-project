@@ -1,9 +1,9 @@
-import { ArtisanSpotlight } from '@/app/ui/home/artisan-spotlight';
-import { CategoryShowcase } from '@/app/ui/home/category-showcase';
-import { CommunityHighlights } from '@/app/ui/home/community-highlights';
-import { Footer } from '@/app/ui/home/footer';
-import { Hero } from '@/app/ui/home/hero';
-import { SiteHeader } from '@/app/ui/home/site-header';
+import { ArtisanSpotlight } from './ui/home/artisan-spotlight';
+import { CategoryShowcase } from './ui/home/category-showcase';
+import { CommunityHighlights } from './ui/home/community-highlights';
+import { Footer } from './ui/home/footer';
+import { Hero } from './ui/home/hero';
+import { SiteHeader } from './ui/home/site-header';
 
 export default function Home() {
   return (
