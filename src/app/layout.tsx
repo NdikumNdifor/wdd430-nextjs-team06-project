@@ -1,5 +1,5 @@
-import '@/app/ui/global.css';
-import { playfair } from '@/app/ui/fonts';
+import './globals.css';
+import { playfair } from './ui/fonts';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

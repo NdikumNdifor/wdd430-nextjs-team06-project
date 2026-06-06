@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { impactStats } from '@/app/ui/home/home-data';
-import styles from '@/app/ui/home/home.module.css';
+import { impactStats } from './home-data';
+import styles from './home.module.css';
 
 export function Hero() {
   return (

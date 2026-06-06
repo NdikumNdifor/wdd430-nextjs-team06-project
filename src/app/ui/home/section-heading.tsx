@@ -1,4 +1,4 @@
-import styles from '@/app/ui/home/home.module.css';
+import styles from './home.module.css';
 
 type SectionHeadingProps = {
   eyebrow: string;

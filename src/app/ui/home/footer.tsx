@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import { navigationLinks } from '@/app/ui/home/home-data';
-import styles from '@/app/ui/home/home.module.css';
+import { navigationLinks } from './home-data';
+import styles from './home.module.css';
 
 export function Footer() {
   return (
