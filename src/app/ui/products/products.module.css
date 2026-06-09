@@ -1,0 +1,219 @@
+.catalog {
+  --color-primary: #e2725b;
+  --color-primary-dark: #c95e49;
+  --color-secondary: #87a96b;
+  --color-secondary-dark: #5f7f47;
+  --color-background: #f5f5dc;
+  --color-ink: #3a302a;
+  --color-muted: #5f554c;
+
+  min-height: 100vh;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
+  background:
+    linear-gradient(120deg, rgba(245, 245, 220, 0.98), rgba(135, 169, 107, 0.14)),
+    var(--color-background);
+}
+
+.catalogHeader {
+  max-width: 48rem;
+}
+
+.catalogHeader p {
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.catalogHeader h1 {
+  margin-top: 0.55rem;
+  color: var(--color-ink);
+  font-size: clamp(2.8rem, 7vw, 5.6rem);
+  line-height: 0.95;
+}
+
+.catalogHeader span {
+  display: block;
+  margin-top: 1rem;
+  color: var(--color-muted);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.65;
+}
+
+.filterPanel {
+  display: grid;
+  grid-template-columns: minmax(13rem, 1.4fr) repeat(4, minmax(9rem, 1fr));
+  gap: 1rem;
+  align-items: end;
+  justify-content: stretch;
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 100%;
+  border: 1px solid rgba(135, 169, 107, 0.28);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.filterPanel label {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--color-ink);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.filterPanel input,
+.filterPanel select {
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid rgba(58, 48, 42, 0.16);
+  border-radius: 0.5rem;
+  background: #fffdf8;
+  color: var(--color-ink);
+  font: inherit;
+  font-weight: 600;
+  padding: 0 0.8rem;
+}
+
+.filterPanel input:focus,
+.filterPanel select:focus {
+  border-color: var(--color-secondary);
+  outline: 3px solid rgba(135, 169, 107, 0.22);
+}
+
+.filterActions {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.filterActions button {
+  min-height: 2.75rem;
+  border: 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  padding: 0 1rem;
+}
+
+.filterActions button:first-child {
+  background: var(--color-primary);
+  color: #fffdf8;
+}
+
+.filterActions button:first-child:hover,
+.filterActions button:first-child:focus-visible {
+  background: var(--color-primary-dark);
+}
+
+.filterActions button:last-child {
+  border: 1px solid rgba(135, 169, 107, 0.48);
+  background: transparent;
+  color: var(--color-secondary-dark);
+}
+
+.resultSummary {
+  margin-top: 1.25rem;
+  color: var(--color-muted);
+  font-weight: 800;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.productCard,
+.emptyState {
+  overflow: hidden;
+  border: 1px solid rgba(135, 169, 107, 0.28);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.productImageWrap {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: rgba(135, 169, 107, 0.16);
+}
+
+.productImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.productContent {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.productContent p {
+  color: var(--color-primary);
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.productContent h2 {
+  color: var(--color-ink);
+  font-size: 1.4rem;
+  line-height: 1.1;
+}
+
+.productContent span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--color-muted);
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.emptyState {
+  margin-top: 1.25rem;
+  padding: 2rem;
+}
+
+.emptyState h2 {
+  color: var(--color-ink);
+  font-size: 1.7rem;
+}
+
+.emptyState p {
+  margin-top: 0.6rem;
+  color: var(--color-muted);
+  line-height: 1.55;
+}
+
+@media (max-width: 1100px) {
+  .filterPanel,
+  .productGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filterActions {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 680px) {
+  .filterPanel,
+  .productGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .filterActions {
+    grid-column: auto;
+    flex-direction: column;
+  }
+}
