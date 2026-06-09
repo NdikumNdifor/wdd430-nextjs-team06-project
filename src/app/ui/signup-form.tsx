@@ -4,6 +4,8 @@ import { useActionState } from "react"
 import {signUpUser, State} from "../../app/lib/actions"
 import { Button } from './button';
 
+import styles from "../registration/signup.module.css"
+
 // import { useSearchParams } from 'next/navigation';
 
 // Define a concrete initial state that satisfies your custom type
@@ -17,45 +19,50 @@ export function SignupForm() {
 
   const [state, formAction, pending ] = useActionState(signUpUser, initialState)
     return(
-        <form action={formAction}>
+      <div className={styles.container}>
+        <form action={formAction} className={styles.form}>
           <h1>Create an Account</h1>
-          <div>
-            <div>
-              <label htmlFor="name">Name</label>
+          <div className={styles.fieldGroup}>
+            <div className={styles.inputWrapper}>
+              <label htmlFor="name">User Name</label>
               <input id="name" name="name" placeholder="Name" />
             </div>
             {/* 3. Display Zod validation errors for name */}
               {state?.errors?.name && (
-              <p className="mt-1 text-sm text-red-500">{state.errors.name[0]}</p>
+              <p className={styles.errorText}>{state.errors.name[0]}</p>
             )}
 
-            <div>
+            <div className={styles.inputWrapper}>
               <label htmlFor="email">Email</label>
               <input name="email" type="email" placeholder="Email" />
             </div>
             {/* Display Zod validation errors for email */}
               {state?.errors?.email && (
-              <p className="mt-1 text-sm text-red-500">{state.errors.email[0]}</p>
+              <p className={styles.errorText}>{state.errors.email[0]}</p>
             )}
 
-            <div>
+            <div className={styles.inputWrapper}>
               <label htmlFor="password">Password</label>
               <input id="password" type="password" name="password" />
             </div>
             {/* Display Zod validation errors for password */}
             {state?.errors?.password && (
-              <p className="mt-1 text-sm text-red-500">{state.errors.password[0]}</p>
+              <p className={styles.errorText}>{state.errors.password[0]}</p>
             )}
           </div>
           {/* 4. Display general database or duplicate account messages */}
             {state?.message && (
-            <p className="mt-2 text-sm text-red-500 font-medium">{state.message}</p>
+            <p className={styles.errorText}>{state.message}</p>
           )}
 
           {/* 3. Pass the destination securely down to the server side action */}
           {/* <input type="hidden" name="redirectTo" value={callbackUrl} />   */}
 
-          <Button className="mt-4 w-full" aria-disabled={pending}>
+          <Button 
+            className={styles.submitButton} 
+            disabled={pending}
+            aria-disabled={pending}
+            >
             Register your account 
           </Button>
 
@@ -67,5 +74,6 @@ export function SignupForm() {
           </p> */}
 
         </form>
+      </div>
     )
 }

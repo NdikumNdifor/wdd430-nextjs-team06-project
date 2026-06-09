@@ -1,0 +1,177 @@
+/* loginForm.module.css */
+
+/* Center everything on the viewport screen */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Card layout wrapper */
+.form {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+}
+
+.innerCard {
+  width: 100%;
+  padding: 32px 24px 24px 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.innerCard h1 {
+  margin: 0 0 16px 0;
+  font-weight: normal;
+  color: #1e293b;
+}
+
+.fieldGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputBlock label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Serves as the relative container context for positioning icons inside fields */
+.inputRelative {
+  position: relative;
+  width: 100%;
+}
+
+.inputRelative input {
+  width: 100%;
+  padding: 10px 14px 10px 40px; /* 40px left padding clears space for the absolute icon */
+  font-size: 0.875rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.inputRelative input::placeholder {
+  color: #9ca3af;
+}
+
+.inputRelative input:focus {
+  border-color: #111827;
+  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.05);
+}
+
+/* Targets the SVG icon positioned explicitly inside the box */
+.inputRelative svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #9ca3af;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+/* Darken icon color when the input sibling box gains active focus */
+.inputRelative input:focus + svg {
+  color: #111827;
+}
+
+/* Buttons */
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #f9fafb;
+  background-color: #111827; /* Modern dark background */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #1f2937;
+}
+
+.submitButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.submitButton svg {
+  margin-left: auto;
+  width: 20px;
+  height: 20px;
+}
+
+/* Alternative Footer Sign-up links text section styling */
+.signupPrompt {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.signupPrompt a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.signupPrompt a:hover {
+  text-decoration: underline;
+}
+
+/* Error UI Feedback Typography */
+.errorText {
+  font-size: 0.875rem;
+  color: #ef4444;
+  margin: 4px 0 0 0;
+}
+
+.errorFooter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  margin-top: 8px;
+}
+
+.errorFooter svg {
+  width: 20px;
+  height: 20px;
+  color: #ef4444;
+}
+
+.errorFooter p {
+  font-size: 0.875rem;
+  color: #ef4444;
+  margin: 0;
+}
