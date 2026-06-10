@@ -1,5 +1,4 @@
-'use client';
-
+import { Suspense } from 'react';
 import LoginForm from "../ui/login-form";
 
 export default function LoginPage() {
@@ -11,9 +10,9 @@ export default function LoginPage() {
             {/* <AcmeLogo /> */}
           </div>
         </div>
-        {/* <Suspense> */}
+        <Suspense fallback={<div>Carregando...</div>}>
           <LoginForm />
-        {/* </Suspense> */}
+        </Suspense>
       </div>
     </main>
   );
