@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import NavLinks from './nav-links';
-import { signOut } from 'next-auth/react';
+import { signOut } from '../../auth';
 import { PowerIcon } from '@heroicons/react/24/outline';
 
 export default function SideNav() {
