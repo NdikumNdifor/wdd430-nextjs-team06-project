@@ -66,6 +66,20 @@ export async function GET(request: NextRequest): Promise<Response> {
       );
     `;
 
+    await client.sql`
+    CREATE TABLE IF NOT EXISTS reviews (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    product_id UUID NOT NULL
+      REFERENCES products(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL
+      REFERENCES users(id) ON DELETE CASCADE,
+    rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(product_id, user_id)
+  );
+`;
+
     // ------------------------------------------------------------------
     // 3. Seed users (upsert — safe to run multiple times)
     // ------------------------------------------------------------------
@@ -89,6 +103,7 @@ export async function GET(request: NextRequest): Promise<Response> {
     // 4. Seed products (upsert — safe to run multiple times)
     // ------------------------------------------------------------------
     const insertedProducts: string[] = [];
+    
 
     for (const product of placeholderProducts) {
       await client.sql`
@@ -105,6 +120,15 @@ export async function GET(request: NextRequest): Promise<Response> {
       `;
       insertedProducts.push(product.name);
     }
+    //seed review
+    await client.sql`
+  INSERT INTO reviews (product_id, user_id, rating, comment)
+  VALUES
+    (${placeholderProducts[0].id}, ${placeholderUsers[0].id}, 5, 'Excelente producto'),
+    (${placeholderProducts[0].id}, ${placeholderUsers[1].id}, 4, 'Muy bueno'),
+    (${placeholderProducts[1].id}, ${placeholderUsers[0].id}, 3, 'Está bien pero puede mejorar')
+  ON CONFLICT DO NOTHING;
+`;
 
     await client.sql`COMMIT`;
 
@@ -115,6 +139,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         seeded: {
           users: insertedUsers,
           products: insertedProducts,
+          reviews: true
         },
       },
       { status: 200 },
