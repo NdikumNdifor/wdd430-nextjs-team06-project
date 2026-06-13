@@ -1,3 +1,5 @@
+'use client';
+
 import { playfair } from './fonts'; //  Correct named import
 // import { lusitana } from '@/app/ui/fonts';
 import {
@@ -8,11 +10,13 @@ import {
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
 
-import { useActionState } from 'react';
+import { use, useActionState } from 'react';
 import { authenticate } from '../lib/actions';
 import { useSearchParams } from 'next/navigation';
 
 import Link from 'next/link';
+
+import styles from "../login/login-form.module.css"
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
@@ -20,87 +24,94 @@ export default function LoginForm() {
   // state will hold the return value from the authenticate action (errors, message)
   const [state, formAction, pending] = useActionState(authenticate, undefined)
   return (
-    <form action={formAction} className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${playfair.className} mb-3 text-2xl`}>
-          Please log in to continue.
-        </h1>
-        <div className="w-full">
-          <div>
-            <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <div className="relative">
-              <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Enter your email address"
-                required
-              />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+    <div className={styles.container}>
+      <form action={formAction} className="space-y-3">
+        <div className={styles.innerCard}>
+          <h1 className={`${playfair.className}`}>
+            Please log in to continue.
+          </h1>
+          <div className={styles.fieldGroup}>
+            <div className={styles.inputBlock}>
+              <label
+                className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <div className={styles.inputRelative}>
+                <input
+                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  required
+                />
+                <AtSymbolIcon />
+              </div>
             </div>
-          </div>
-          {/* In case Zod catches an email problem, it should be displayed here */}
-          {state?.errors?.email && (
-            <p className="text-sm text-red-500">{state.errors.email[0]}</p>
-          )}
+            {/* In case Zod catches an email problem, it should be displayed here */}
+            {state?.errors?.email && (
+              <p className={styles.errorText}>{state.errors.email[0]}</p>
+            )}
 
-          <div className="mt-4">
-            <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <div className="relative">
-              <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                id="password"
-                type="password"
-                name="password"
-                placeholder="Enter password"
-                required
-                minLength={6}
-              />
-              <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            <div className={styles.inputBlock}>
+              <label
+                className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <div className={styles.inputRelative}>
+                <input
+                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="Enter password"
+                  required
+                  minLength={6}
+                />
+                <KeyIcon />
+              </div>
             </div>
+            {/* In case Zod catches a password problem, it should be displayed here */}
+            {state?.errors?.password && (
+              <p className={styles.errorText}>{state.errors.password[0]}</p>
+            )}
           </div>
-          {/* In case Zod catches a password problem, it should be displayed here */}
-          {state?.errors?.password && (
-            <p className="text-sm text-red-500">{state.errors.password[0]}</p>
-          )}
+          {/* A more general message here   */}
+          {state?.message && <p className={styles.errorText}>{state.message}</p>}
+
+          <input type="hidden" name="redirectTo" value={callbackUrl} />
+
+          <Button 
+            className={styles.submitButton} 
+            disabled={pending}
+            aria-disabled={pending}
+            >
+            Log in <ArrowRightIcon/>
+          </Button>
+
+            {/* Adding the sign up link*/}
+          <p className={styles.signupPrompt}>
+            Don't have an account yet?{' '}
+            <Link href="/registration">
+              Sign up
+            </Link>
+          </p>
+
+          <div className={styles.errorFooter}>
+            {/* Add form errors here */}
+            {state?.message && (
+              <>
+                <ExclamationCircleIcon />
+                <p>{state.message}</p>
+              </>
+            )}
+          </div>
         </div>
-        {/* A more general message here   */}
-        {state?.message && <p className="text-red-500">{state.message}</p>}
-
-        <input type="hidden" name="redirectTo" value={callbackUrl} />  
-        <Button className="mt-4 w-full" aria-disabled={pending}>
-          Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-        </Button>
-
-          {/* Adding the sign up link*/}
-        <p className="mt-4 text-center text-sm text-gray-600">
-          Don't have an account yet?{' '}
-          <Link href="/signup" className="text-blue-500 hover:underline">
-            Sign up
-          </Link>
-        </p>
-
-        <div className="flex h-8 items-end space-x-1">
-          {/* Add form errors here */}
-          {state?.message && (
-            <>
-              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{state.message}</p>
-            </>
-          )}
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }

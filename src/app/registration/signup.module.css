@@ -1,0 +1,123 @@
+/* signup.module.css */
+
+/* Centers the entire form vertically and horizontally on the page */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Base form layout */
+.form {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.form h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #1e293b;
+  text-align: center;
+}
+
+/* Stacks label and input fields vertically */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputWrapper label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Subtle focus effect for text fields */
+.inputWrapper input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Error Typography styling for validation and backend messages */
+.errorText {
+  font-size: 0.8125rem;
+  color: #dc2626;
+  margin: 4px 0 0 0;
+  font-weight: 500;
+}
+
+.generalError {
+  font-size: 0.875rem;
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  margin: 0;
+}
+
+
+/* Add this at the bottom of signupForm.module.css */
+
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #2563eb; /* Clean blue color */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 16px;
+}
+
+/* Hover effect when the button is active */
+.submitButton:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+/* Subtle click effect */
+.submitButton:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Disabled/Loading state style when pending is true */
+.submitButton:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
