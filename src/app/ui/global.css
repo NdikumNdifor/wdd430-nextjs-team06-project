@@ -18,20 +18,32 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.nav-link, form{
+.nav-link, .sign-out {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
+}
+
+.nav-link:hover, form:hover {
+  color: #e2725b;
 }
 
 .navigation {
   border-right: 1px solid rgba(226, 114, 91, 0.22);
   margin-right: 2rem;
+  text-decoration: none;
 }
 
 .page {
   display: grid;
   grid-template-columns: 150px 1fr;
+  text-decoration: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 375px) {

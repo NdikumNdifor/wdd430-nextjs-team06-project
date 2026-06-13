@@ -13,7 +13,7 @@ export default function SideNav() {
       </Link>
       <div className="navigation">
         <NavLinks />
-        <form action={async () => {
+        <form className="sign-out" action={async () => {
           'use server'
           await signOut({redirectTo: '/'})
         }}>

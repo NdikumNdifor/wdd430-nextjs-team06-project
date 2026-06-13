@@ -1,4 +1,4 @@
-import './globals.css';
+import './ui/global.css';
 import { playfair } from './ui/fonts';
 import type { Metadata } from 'next';
 
