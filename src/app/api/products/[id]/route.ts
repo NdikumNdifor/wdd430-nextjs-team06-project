@@ -1,68 +1,49 @@
-import { NextResponse } from "next/server";
 import { db } from "@vercel/postgres";
+import { auth } from "@/src/app/auth";
+import { NextRequest } from "next/server";
 
-export async function PATCH(
-  req: Request,
+// GET reviews
+export async function GET(
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  try {
-    const { id } = params;
+  const productId = params.id;
 
-    const { title, description, price } = await req.json();
+  const { rows: reviews } = await db.sql`
+    SELECT *
+    FROM reviews
+    WHERE product_id = ${productId}
+    ORDER BY created_at DESC
+  `;
 
-    await db.sql`
-      UPDATE products
-      SET
-        name = ${title},
-        description = ${description},
-        price = ${price}
-      WHERE id = ${id}
-    `;
-
-    return NextResponse.json({
-      success: true,
-      message: "Product updated successfully",
-    });
-  } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Error updating product",
-      },
-      { status: 500 }
-    );
-  }
+  return Response.json({ reviews });
 }
 
-export async function DELETE(
-  req: Request,
+// POST review (CON AUTH REAL)
+export async function POST(
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  try {
-    const { id } = params;
+  const session = await auth();
 
-    await db.sql`
-      DELETE FROM products
-      WHERE id = ${id}
-    `;
-
-    return NextResponse.json({
-      success: true,
-      message: "Product deleted",
-    });
-  } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Error deleting product",
-      },
-      { status: 500 }
-    );
+  if (!session?.user) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const productId = params.id;
+  const { rating, comment } = await req.json();
+
+  if (!rating) {
+    return Response.json({ error: "Rating required" }, { status: 400 });
+  }
+
+  const userId = session.user.id;
+
+  const { rows } = await db.sql`
+    INSERT INTO reviews (product_id, user_id, rating, comment)
+    VALUES (${productId}, ${userId}, ${rating}, ${comment})
+    RETURNING *
+  `;
+
+  return Response.json({ review: rows[0] });
 }
-
-
