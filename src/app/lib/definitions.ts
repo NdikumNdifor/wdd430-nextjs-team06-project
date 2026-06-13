@@ -1,23 +1,23 @@
-// src/app/lib/definitions.ts
-// Core TypeScript interfaces for Handcrafted Haven
-// Maps 1:1 to the Vercel Postgres (Neon) database schema.
+// Core TypeScript interfaces for Handcrafted Haven.
+// Maps to the Vercel Postgres database schema.
 
 export interface User {
-  id: string;           // UUID — uuid_generate_v4()
-  name: string;         // VARCHAR(255) NOT NULL
-  email: string;        // VARCHAR(255) UNIQUE NOT NULL
-  password: string;     // TEXT NOT NULL — bcrypt-hashed at rest
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  bio?: string | null;
+  profile_image_url?: string | null;
 }
 
 export interface Product {
-  id: string;           // UUID — uuid_generate_v4()
-  seller_id: string;    // UUID FK → users.id ON DELETE CASCADE
-  name: string;         // VARCHAR(255) NOT NULL
-  description: string;  // TEXT NOT NULL
-  price: number;        // NUMERIC(10, 2) NOT NULL
-  image_url: string;    // TEXT NOT NULL
+  id: string;
+  seller_id: string;
+  name: string;
+  description: string;
+  price: number;
+  image_url: string;
 }
-
 
 export interface CustomersTableType {
   id: string;

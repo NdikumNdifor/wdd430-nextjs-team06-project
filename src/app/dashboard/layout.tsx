@@ -1,12 +1,11 @@
 import SideNav from '../ui/dashboard/sidenav';
- 
+import styles from '../ui/dashboard/dashboard.module.css';
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="page">
-      <div className="w-full flex-none md:w-64">
-        <SideNav />
-      </div>
-      <div className="grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+    <div className={styles.dashboardShell}>
+      <SideNav />
+      <div className={styles.dashboardMain}>{children}</div>
     </div>
   );
 }

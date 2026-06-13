@@ -95,7 +95,7 @@ export default function LoginForm() {
 
             {/* Adding the sign up link*/}
           <p className={styles.signupPrompt}>
-            Don't have an account yet?{' '}
+            Don&apos;t have an account yet?{' '}
             <Link href="/registration">
               Sign up
             </Link>

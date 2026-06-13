@@ -4,7 +4,7 @@ import {z} from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import postgres from 'postgres';
-import {signIn} from '../auth';
+import { auth, signIn } from '../auth';
 import {AuthError} from 'next-auth';
 import bycrypt from 'bcryptjs';
 
@@ -23,6 +23,18 @@ const signInSchema = z.object({
     password: z.string().min(6, {message: 'Please enter a password which is 6 characters long.'})
 })
 
+const sellerProfileSchema = z.object({
+    bio: z
+      .string()
+      .max(600, { message: 'Bio must be 600 characters or fewer.' })
+      .optional(),
+    profileImageUrl: z
+      .string()
+      .url({ message: 'Enter a valid image URL.' })
+      .or(z.literal(''))
+      .optional(),
+})
+
 export type State = {
     errors?: {
         name?: string[];
@@ -31,6 +43,74 @@ export type State = {
     }
     message?: string | null;
 };
+
+export type ProfileState = {
+  errors?: {
+    bio?: string[];
+    profileImageUrl?: string[];
+  };
+  message?: string | null;
+  success?: boolean;
+};
+
+export async function updateSellerProfile(
+  prevState: ProfileState,
+  formData: FormData,
+): Promise<ProfileState> {
+  void prevState;
+
+  const session = await auth();
+  const email = session?.user?.email;
+
+  if (!email) {
+    return {
+      errors: {},
+      message: 'You must be signed in to update your profile.',
+      success: false,
+    };
+  }
+
+  const validatedFields = sellerProfileSchema.safeParse({
+    bio: formData.get('bio'),
+    profileImageUrl: formData.get('profileImageUrl'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Please fix the profile details and try again.',
+      success: false,
+    };
+  }
+
+  const { bio, profileImageUrl } = validatedFields.data;
+
+  try {
+    await sql`
+      UPDATE users
+      SET
+        bio = ${bio?.trim() || null},
+        profile_image_url = ${profileImageUrl?.trim() || null}
+      WHERE email = ${email}
+    `;
+  } catch (error) {
+    console.error('[actions] updateSellerProfile error:', error);
+
+    return {
+      errors: {},
+      message: 'Database error: failed to update profile.',
+      success: false,
+    };
+  }
+
+  revalidatePath('/dashboard/profile');
+
+  return {
+    errors: {},
+    message: 'Profile updated successfully.',
+    success: true,
+  };
+}
 
 
 /**********************************
@@ -65,9 +145,14 @@ export async function signUpUser(prevState: State, formData: FormData) {
             INSERT INTO Users(name, email, password)
             VALUES(${name}, ${email}, ${hashedPassword})
         `
-    }catch(error: any){
+    }catch(error: unknown){
         // Handle unique constraint violations (e.g., duplicate email)
-        if (error.code === '23505') {
+        if (
+          typeof error === 'object' &&
+          error !== null &&
+          'code' in error &&
+          error.code === '23505'
+        ) {
             return {
               errors: {}, // Explicitly provide an empty errors object to match type 
               message: 'An account with this email already exists.' 
@@ -108,7 +193,9 @@ export async function signUpUser(prevState: State, formData: FormData) {
 /*************************************
 ACTION 2: SIGN IN (AUTHENTICATE USER)
 *************************************/
-export async function authenticate(prevState: any, formData: FormData) {
+export async function authenticate(prevState: State | undefined, formData: FormData) {
+  void prevState;
+
   const validatedFields = signInSchema.safeParse({
     // Object.fromEntries(formData.entries())
     email: formData.get('email'),

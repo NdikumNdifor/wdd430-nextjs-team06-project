@@ -1,9 +1,11 @@
-import { db } from "@vercel/postgres";
-import Link from "next/link";
+import { db } from '@vercel/postgres';
+import Link from 'next/link';
+
+import styles from '../../ui/dashboard/dashboard.module.css';
 
 export default async function DashboardProductsPage() {
   // temporary code
-  const seller_id = "a1b2c3d4-0001-4e5f-8a9b-000000000001";
+  const seller_id = 'a1b2c3d4-0001-4e5f-8a9b-000000000001';
 
   const { rows: products } = await db.sql`
     SELECT * FROM products
@@ -12,72 +14,63 @@ export default async function DashboardProductsPage() {
   `;
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 p-4">
-      
-      {/* HEADER */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">
-          My Products
-        </h1>
+    <>
+      <section className={styles.pageHeader}>
+        <div className={styles.sectionToolbar}>
+          <div>
+            <p className={styles.eyebrow}>Products</p>
+            <h1 className={styles.pageTitle}>My products</h1>
+            <p className={styles.pageDescription}>
+              Manage the handcrafted items customers can discover in the
+              marketplace.
+            </p>
+          </div>
 
-        <Link href="/dashboard/create">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded">
-            + Upload Product
-          </button>
-        </Link>
-      </div>
+          <Link className={styles.primaryAction} href="/dashboard/create">
+            Upload product
+          </Link>
+        </div>
+      </section>
 
-      {/* GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className={styles.productGrid} aria-label="Seller products">
         {products.map((product) => (
-          <div
-            key={product.id}
-            className="border rounded-xl p-4 shadow"
-          >
-            
-            {/* IMAGE */}
+          <article className={styles.productCard} key={product.id}>
             {product.image_url && (
               <img
+                alt={product.name}
+                className={styles.productImage}
                 src={product.image_url}
-                className="w-full h-40 object-cover rounded-lg"
               />
             )}
 
-            {/* INFO */}
-            <h2 className="text-lg font-semibold mt-2">
-              {product.name}
-            </h2>
+            <div className={styles.productBody}>
+              <h2>{product.name}</h2>
+              <p>{product.description}</p>
+              <span className={styles.price}>${product.price}</span>
 
-            <p className="text-gray-600 text-sm">
-              {product.description}
-            </p>
-
-            <p className="font-bold text-blue-600 mt-2">
-              €{product.price}
-            </p>
-
-            {/* ACTIONS */}
-            <div className="flex gap-2 mt-4">
-
-              {/* EDIT */}
-              <Link href={`/dashboard/products/${product.id}/edit`}>
-                <button className="bg-yellow-500 text-white px-3 py-1 rounded">
+              <div className={styles.productActions}>
+                <Link
+                  className={styles.secondaryAction}
+                  href={`/dashboard/products/${product.id}/edit`}
+                >
                   Edit
-                </button>
-              </Link>
+                </Link>
 
-              {/* DELETE  */}
-              <form action={`/api/products/${product.id}`} method="POST">
-                <button className="bg-red-600 text-white px-3 py-1 rounded">
-                  Delete
-                </button>
-              </form>
-
+                <form action={`/api/products/${product.id}`} method="POST">
+                  <button className={styles.deleteButton}>Delete</button>
+                </form>
+              </div>
             </div>
-
-          </div>
+          </article>
         ))}
-      </div>
-    </div>
+
+        {products.length === 0 && (
+          <div className={styles.emptyState}>
+            <h2>No products yet</h2>
+            <p>Add your first product to begin building your shop catalog.</p>
+          </div>
+        )}
+      </section>
+    </>
   );
 }

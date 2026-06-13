@@ -5,9 +5,11 @@ import { NextRequest } from "next/server";
 // GET reviews
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const productId = params.id;
+  void req;
+
+  const { id: productId } = await params;
 
   const { rows: reviews } = await db.sql`
     SELECT *
@@ -22,7 +24,7 @@ export async function GET(
 // POST review (CON AUTH REAL)
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
 
@@ -30,7 +32,7 @@ export async function POST(
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const productId = params.id;
+  const { id: productId } = await params;
   const { rating, comment } = await req.json();
 
   if (!rating) {
