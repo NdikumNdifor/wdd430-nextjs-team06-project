@@ -50,8 +50,20 @@ export async function GET(request: NextRequest): Promise<Response> {
         id       UUID         PRIMARY KEY DEFAULT uuid_generate_v4(),
         name     VARCHAR(255) NOT NULL,
         email    VARCHAR(255) UNIQUE NOT NULL,
-        password TEXT         NOT NULL
+        password TEXT         NOT NULL,
+        bio      TEXT,
+        profile_image_url TEXT
       );
+    `;
+
+    await client.sql`
+      ALTER TABLE users
+      ADD COLUMN IF NOT EXISTS bio TEXT;
+    `;
+
+    await client.sql`
+      ALTER TABLE users
+      ADD COLUMN IF NOT EXISTS profile_image_url TEXT;
     `;
 
     await client.sql`

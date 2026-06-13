@@ -2,9 +2,9 @@ import { db } from "@vercel/postgres";
 import ReviewForm from "@/src/app/ui/reviews/review-form";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 type Review = {
@@ -15,7 +15,7 @@ type Review = {
 };
 
 export default async function ProductPage({ params }: Props) {
-  const { id } = params;
+  const { id } = await params;
 
   // Obtener producto
   const { rows: productRows } = await db.sql`

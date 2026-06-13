@@ -4,9 +4,11 @@ import { NextRequest } from "next/server";
 // GET reviews de un producto
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const productId = params.id;
+  void req;
+
+  const { id: productId } = await params;
 
   const { rows: reviews } = await db.sql`
     SELECT *
@@ -21,10 +23,10 @@ export async function GET(
 // POST create review
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const productId = params.id;
+    const { id: productId } = await params;
 
     const body = await req.json();
 

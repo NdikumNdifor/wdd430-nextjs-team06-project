@@ -3,7 +3,7 @@ import { db } from "@vercel/postgres";
 
 export async function POST(req: Request) {
   try {
-    // receive form data  
+    // receive form data
     const formData = await req.formData();
 
     const title = formData.get("title") as string;
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const price = formData.get("price") as string;
     const image = formData.get("image") as File | null;
 
-    // for now we we don't have an url 
+    // for now we we don't have an url
     let image_url = null;
 
     if (image) {
@@ -45,5 +45,3 @@ export async function POST(req: Request) {
     );
   }
 }
-
-

@@ -5,7 +5,7 @@
 // client components directly.
 
 import { sql } from '@vercel/postgres';
-import type { Product } from './definitions';
+import type { Product, User } from './definitions';
 
 // ---------------------------------------------------------------------------
 // fetchProducts
@@ -102,5 +102,35 @@ export async function fetchProductsBySeller(
       error,
     );
     throw new Error("Failed to fetch this seller's products from the database.");
+  }
+}
+
+// ---------------------------------------------------------------------------
+// fetchUserProfileByEmail
+// ---------------------------------------------------------------------------
+/**
+ * Returns the editable seller profile for the authenticated user's email.
+ */
+export async function fetchUserProfileByEmail(
+  email: string,
+): Promise<User | null> {
+  try {
+    const { rows } = await sql<User>`
+      SELECT
+        id,
+        name,
+        email,
+        password,
+        bio,
+        profile_image_url
+      FROM users
+      WHERE email = ${email}
+      LIMIT 1;
+    `;
+
+    return rows[0] ?? null;
+  } catch (error) {
+    console.error(`[data] fetchUserProfileByEmail error (email=${email}):`, error);
+    throw new Error('Failed to fetch the seller profile from the database.');
   }
 }
