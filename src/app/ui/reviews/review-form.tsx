@@ -24,7 +24,7 @@ export default function ReviewForm({ productId }: Props) {
           },
           body: JSON.stringify({
             // Changes this for an ID real
-            user_id: "PEGA_AQUI_UN_UUID_REAL",
+            user_id: "a1b2c3d4-0001-4e5f-8a9b-000000000001",
             rating,
             comment,
           }),

@@ -60,6 +60,22 @@ export default async function DashboardProductsPage() {
                   <button className={styles.deleteButton}>Delete</button>
                 </form>
               </div>
+              <div className={styles.secondaryAction}>
+
+                <Link
+                  key={product.id}
+                  href={`products/${product.id}`}
+                >
+                  <p className="text-sm text-gray-500 mt-1">
+                    ⭐ View rating & reviews
+                  </p>
+
+                  {/* CLICK INDICATOR */}
+                  <p className="text-sm text-blue-500 mt-2 font-medium">
+                    Click to view details →
+                  </p>
+                </Link>
+              </div>
             </div>
           </article>
         ))}
