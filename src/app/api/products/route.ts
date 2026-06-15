@@ -9,14 +9,14 @@ export async function POST(req: Request) {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const price = formData.get("price") as string;
-    const image = formData.get("image") as File | null;
+    const image = formData.get("image") as string;
 
     // for now we we don't have an url
     let image_url = null;
 
     if (image) {
       // temporary only to see how it worked the code
-      image_url = `https://via.placeholder.com/300`;
+      image_url = image;
     }
 
     // id temporary only to see how the code work

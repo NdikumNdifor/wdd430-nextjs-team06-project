@@ -9,6 +9,7 @@ export default function ProductUpload() {
     title: "",
     description: "",
     price: "",
+    image: "",
   });
 
   const [images, setImages] = useState<File[]>([]);
@@ -25,10 +26,10 @@ export default function ProductUpload() {
 
 
   //handle images
-  const handleImages = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    setImages(Array.from(e.target.files));
-  };
+  // const handleImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (!e.target.files) return;
+  //   setImages(Array.from(e.target.files));
+  // };
 
  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
@@ -38,6 +39,7 @@ export default function ProductUpload() {
   formData.append("title", product.title);
   formData.append("description", product.description);
   formData.append("price", product.price);
+  formData.append("image", product.image);
 
   // only the firts image for the moment
   if (images[0]) {
@@ -98,7 +100,15 @@ export default function ProductUpload() {
         <br />
         <br />
 
-        <input type="file" multiple onChange={handleImages} />
+        <label htmlFor="image">Image</label>
+        <br />
+        <input
+          type="text"
+          name="image"
+          placeholder="Image URL"
+          value={product.image}
+          onChange={handleChange}
+        />
 
         <br />
         <br />
