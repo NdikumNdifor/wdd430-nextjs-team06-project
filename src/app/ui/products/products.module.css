@@ -177,6 +177,7 @@
   line-height: 1.55;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+  line-clamp: 4;
 }
 
 .emptyState {
@@ -193,6 +194,22 @@
   margin-top: 0.6rem;
   color: var(--color-muted);
   line-height: 1.55;
+}
+
+.secondaryAction {
+  display: inline-flex;
+  min-height: 2.85rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 0.5rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+  padding-bottom: 0.5rem;
 }
 
 @media (max-width: 1100px) {

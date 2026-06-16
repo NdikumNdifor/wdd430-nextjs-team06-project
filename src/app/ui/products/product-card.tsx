@@ -1,5 +1,5 @@
 import Image from 'next/image';
-
+import Link from 'next/link';
 import type { Product } from '../../lib/definitions';
 import styles from './products.module.css';
 
@@ -29,6 +29,21 @@ export function ProductCard({ product }: ProductCardProps) {
         <p>{currencyFormatter.format(Number(product.price))}</p>
         <h2>{product.name}</h2>
         <span>{product.description}</span>
+      </div>
+      <div className={styles.secondaryAction}>
+        <Link
+          key={product.id}
+          href={`catalog/${product.id}`}
+        >
+          <p className="text-sm text-gray-500 mt-1">
+            ⭐ View rating & reviews
+          </p>
+
+          {/* CLICK INDICATOR */}
+          <p className="text-sm text-blue-500 mt-2 font-medium">
+            Click to view details →
+          </p>
+        </Link>
       </div>
     </article>
   );

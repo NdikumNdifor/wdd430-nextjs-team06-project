@@ -26,7 +26,7 @@ export default async function DashboardProductsPage() {
             </p>
           </div>
 
-          <Link className={styles.primaryAction} href="/dashboard/create">
+          <Link className={styles.primaryAction} href="/dashboard/products/create">
             Upload product
           </Link>
         </div>
