@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
-/*Function areas */
-// defining a function at the same time I am market as a exportable function.
+import styles from "../dashboard/dashboard.module.css";
+
 export default function ProductUpload() {
   const [product, setProduct] = useState({
     title: "",
@@ -12,9 +13,6 @@ export default function ProductUpload() {
     image: "",
   });
 
-  const [images, setImages] = useState<File[]>([]);
-
-  //handle the input text
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -22,14 +20,7 @@ export default function ProductUpload() {
       ...product,
       [e.target.name]: e.target.value,
     });
-  };   
-
-
-  //handle images
-  // const handleImages = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (!e.target.files) return;
-  //   setImages(Array.from(e.target.files));
-  // };
+  };
 
  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
@@ -41,11 +32,6 @@ export default function ProductUpload() {
   formData.append("price", product.price);
   formData.append("image", product.image);
 
-  // only the firts image for the moment
-  if (images[0]) {
-    formData.append("image", images[0]);
-  }
-
   const res = await fetch("/api/products", {
     method: "POST",
     body: formData,
@@ -55,77 +41,86 @@ export default function ProductUpload() {
   console.log(data);
 };
 
-
-
   return (
-    <>
-      <h1>Product Upload</h1>
+    <section className={styles.formPage}>
+      <div className={styles.formIntro}>
+        <p className={styles.eyebrow}>New listing</p>
+        <h1 className={styles.pageTitle}>Upload product</h1>
+        <p className={styles.pageDescription}>
+          Add a handcrafted item with clear details, pricing, and an image URL
+          customers can preview in the marketplace.
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Product Title</label>
-        <br />
-        <input
-          type="text"
-          name="title"
-          placeholder="Product title"
-          value={product.title}
-          onChange={handleChange}
-        />
+      <form onSubmit={handleSubmit} className={styles.productForm}>
+        <div className={styles.formGrid}>
+          <div className={styles.fieldGroup}>
+            <label htmlFor="title">Product title</label>
+            <input
+              id="title"
+              type="text"
+              name="title"
+              placeholder="Ceramic berry bowl"
+              value={product.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <br />
-        <br />
-        
-        <label htmlFor="description">Description</label>
-        <br/>
-        <textarea
-          name="description"
-          placeholder="Description"
-          value={product.description}
-          onChange={handleChange}
-        />
+          <div className={styles.fieldGroup}>
+            <label htmlFor="price">Price</label>
+            <input
+              id="price"
+              type="number"
+              min="0"
+              step="0.01"
+              name="price"
+              placeholder="42.00"
+              value={product.price}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
 
-        <br />
-        <br />
+        <div className={styles.fieldGroup}>
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Describe materials, process, dimensions, and what makes this piece special."
+            value={product.description}
+            onChange={handleChange}
+            rows={6}
+            required
+          />
+        </div>
 
-        <label htmlFor="price">Price</label>
-        <br />
-        <input
-          type="text"
-          name="price"
-          placeholder="Price"
-          value={product.price}
-          onChange={handleChange}
-        />
+        <div className={styles.fieldGroup}>
+          <label htmlFor="image">Image URL</label>
+          <input
+            id="image"
+            type="url"
+            name="image"
+            placeholder="https://example.com/product-image.jpg"
+            value={product.image}
+            onChange={handleChange}
+            required
+          />
+          <span className={styles.fieldHint}>
+            Use a public image URL so the product can appear in the catalog.
+          </span>
+        </div>
 
-        <br />
-        <br />
-
-        <label htmlFor="image">Image</label>
-        <br />
-        <input
-          type="text"
-          name="image"
-          placeholder="Image URL"
-          value={product.image}
-          onChange={handleChange}
-        />
-
-        <br />
-        <br />
-
-        <button type="submit">Submit Product</button>
+        <div className={styles.formActions}>
+          <button type="submit" className={styles.primaryAction}>
+            Submit product
+          </button>
+          <Link href="/dashboard/products" className={styles.secondaryAction}>
+            Cancel
+          </Link>
+        </div>
       </form>
-    </>
+    </section>
   );
 }
-
-
-/**
- * NOTES
- * React always start the components with Uper case
- * React always need a return componentss
- * useState let add a state variable to your components
- * handleChange  updating an input to something other than e.target.value.
- * in TSX is necessarry to define  type in a formylary if not you will have an error
- * if you not defined it can occur more silence errors.
- */

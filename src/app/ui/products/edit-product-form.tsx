@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+import styles from "../dashboard/dashboard.module.css";
 
 type Product = {
   id: string;
@@ -44,41 +47,66 @@ export default function EditProductForm({
   };
 
   return (
-    
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 space-y-4">
-      <h1 className="text-2xl font-bold">Edit Product</h1>
+    <section className={styles.formPage}>
+      <div className={styles.formIntro}>
+        <p className={styles.eyebrow}>Product details</p>
+        <h1 className={styles.pageTitle}>Edit product</h1>
+        <p className={styles.pageDescription}>
+          Keep your listing accurate with updated product information and a
+          polished description for customers.
+        </p>
+      </div>
 
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="w-full border p-2 rounded"
-        placeholder="Title"
-      />
+      <form onSubmit={handleSubmit} className={styles.productForm}>
+        <div className={styles.formGrid}>
+          <div className={styles.fieldGroup}>
+            <label htmlFor="title">Product title</label>
+            <input
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Product title"
+              required
+            />
+          </div>
 
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className="w-full border p-2 rounded"
-        placeholder="Description"
-      />
+          <div className={styles.fieldGroup}>
+            <label htmlFor="price">Price</label>
+            <input
+              id="price"
+              type="number"
+              min="0"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Price"
+              required
+            />
+          </div>
+        </div>
 
-      <input
-        type="text"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        className="w-full border p-2 rounded"
-        placeholder="Price"
-      />
+        <div className={styles.fieldGroup}>
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Product description"
+            rows={6}
+            required
+          />
+        </div>
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        Save Changes
-      </button>
-    </form>
-    
+        <div className={styles.formActions}>
+          <button type="submit" className={styles.primaryAction}>
+            Save changes
+          </button>
+          <Link href="/dashboard/products" className={styles.secondaryAction}>
+            Cancel
+          </Link>
+        </div>
+      </form>
+    </section>
   );
-
 }
