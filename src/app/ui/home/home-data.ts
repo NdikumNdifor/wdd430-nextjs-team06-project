@@ -1,5 +1,5 @@
 export const navigationLinks = [
-  { label: 'Shop', href: 'catalog' },
+  { label: 'Shop', href: '/products' },
   { label: 'Artisans', href: '/#artisans' },
   { label: 'Community', href: '/#community' },
 ];
